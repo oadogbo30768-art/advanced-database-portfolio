@@ -1,4 +1,4 @@
-# Portfolio 1 — Database Design and Modelling (7 marks)
+# Portfolio 1 — Database Design and Modelling
 
 ## Case study: CityLight Public Library
 - **Organisation:** CityLight Public Library (simulated, Abuja) — lends books, manages members, tracks loans/returns/fines.
@@ -14,8 +14,6 @@
 - Constraints: UNIQUE(email), UNIQUE(isbn), UNIQUE(fines.loan_id), CHECK on copies/dates/email, ENUMs for status, ON DELETE CASCADE fines.
 
 ## ER diagram
-Option A (fastest, 5 min): MySQL Workbench → Database → Reverse Engineer → select `citylight_library` → screenshot → save as `er-diagram.png` in this folder.
-Option B (no screenshot needed): this Mermaid renders the same design — paste into README on GitHub or mermaid.live for a screenshot:
 
 ```mermaid
 erDiagram
@@ -30,7 +28,7 @@ erDiagram
   FINES { int fine_id PK "AUTO_INCREMENT" int loan_id FK "UNIQUE" decimal amount bool paid date paid_date "nullable" }
 ```
 
-## Normalisation (write this in your own words on LMS)
+## Normalisation 
 - **1NF:** atomic columns, no repeating groups (one book per row, one loan per row; phone as single value).
 - **2NF:** every non-key attribute fully depends on the whole PK (loan dates/status depend on loan_id, not on member_id+book_id).
 - **3NF:** no transitive dependencies — member details live in `members`, book details in `books`, fine details in `fines`, not duplicated inside `loans`.
