@@ -1,12 +1,12 @@
 # Portfolio 1 — Database Design and Modelling
 
 ## Case study: CityLight Public Library
-- **Organisation:** CityLight Public Library (simulated, Abuja) — lends books, manages members, tracks loans/returns/fines.
+- **Organisation:** CityLight Public Library — lends books, manages members, tracks loans/returns/fines.
 - **Users:** members/borrowers, librarians, assistants, admin.
 - **Major data:** members, books (ISBN, title, author, category, copies), staff, loans (loan/due/return dates, status), fines.
 - **Key operations:** register member, add book, borrow book, return book, calculate fine, search catalogue.
 
-## ER design (implement exactly as in schema.sql)
+## ER design 
 - `members (1) — (M) loans (M) — (1) books`
 - `staff (1) — (M) loans` (who issued the loan, nullable)
 - `loans (1) — (1) fines` (one fine row per loan, UNIQUE on loan_id)
