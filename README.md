@@ -50,6 +50,7 @@ advanced-database-portfolio/
         README 
 ├── portfolio-4-nosql/
 │   └── nosql_mysql_json.sql
+        README
 ├── portfolio-5-distributed-cloud/
 │   ├── partitioning.sql
 │   ├── replication-config/
