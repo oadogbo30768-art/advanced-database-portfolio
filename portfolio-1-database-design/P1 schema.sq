@@ -1,0 +1,105 @@
+-- Portfolio 1: CityLight Public Library — Database Design (MySQL 8.0)
+-- Run in MySQL Workbench: open this file and Execute All.
+
+CREATE DATABASE IF NOT EXISTS citylight_library;
+USE citylight_library;
+
+-- Clean rerun support
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS fines;
+DROP TABLE IF EXISTS loans;
+DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS members;
+DROP TABLE IF EXISTS staff;
+SET FOREIGN_KEY_CHECKS = 1;
+
+CREATE TABLE members (
+  member_id INT AUTO_INCREMENT PRIMARY KEY,
+  full_name VARCHAR(100) NOT NULL,
+  email VARCHAR(120) NOT NULL UNIQUE,
+  phone VARCHAR(20),
+  membership_date DATE NOT NULL DEFAULT (CURDATE()),
+  status ENUM('active','suspended','expired') NOT NULL DEFAULT 'active',
+  CONSTRAINT chk_member_email CHECK (email LIKE '%@%')
+) ENGINE=InnoDB;
+
+CREATE TABLE books (
+  book_id INT AUTO_INCREMENT PRIMARY KEY,
+  isbn VARCHAR(20) NOT NULL UNIQUE,
+  title VARCHAR(200) NOT NULL,
+  author VARCHAR(120) NOT NULL,
+  category VARCHAR(60) NOT NULL,
+  total_copies INT NOT NULL DEFAULT 1,
+  available_copies INT NOT NULL DEFAULT 1,
+  CONSTRAINT chk_copies CHECK (total_copies >= 0 AND available_copies >= 0 AND available_copies <= total_copies)
+) ENGINE=InnoDB;
+
+CREATE TABLE staff (
+  staff_id INT AUTO_INCREMENT PRIMARY KEY,
+  full_name VARCHAR(100) NOT NULL,
+  role VARCHAR(50) NOT NULL,
+  email VARCHAR(120) NOT NULL UNIQUE
+) ENGINE=InnoDB;
+
+CREATE TABLE loans (
+  loan_id INT AUTO_INCREMENT PRIMARY KEY,
+  member_id INT NOT NULL,
+  book_id INT NOT NULL,
+  staff_id INT,
+  loan_date DATE NOT NULL DEFAULT (CURDATE()),
+  due_date DATE NOT NULL,
+  return_date DATE NULL,
+  status ENUM('on_loan','returned','overdue') NOT NULL DEFAULT 'on_loan',
+  CONSTRAINT fk_loans_member FOREIGN KEY (member_id) REFERENCES members(member_id),
+  CONSTRAINT fk_loans_book FOREIGN KEY (book_id) REFERENCES books(book_id),
+  CONSTRAINT fk_loans_staff FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
+  CONSTRAINT chk_dates CHECK (due_date >= loan_date)
+) ENGINE=InnoDB;
+
+CREATE TABLE fines (
+  fine_id INT AUTO_INCREMENT PRIMARY KEY,
+  loan_id INT NOT NULL UNIQUE,
+  amount DECIMAL(8,2) NOT NULL DEFAULT 0.00,
+  paid TINYINT(1) NOT NULL DEFAULT 0,
+  paid_date DATE NULL,
+  CONSTRAINT fk_fines_loan FOREIGN KEY (loan_id) REFERENCES loans(loan_id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Helpful indexes (also used in Portfolio 2 optimisation evidence)
+CREATE INDEX idx_books_title ON books(title);
+CREATE INDEX idx_books_author ON books(author);
+CREATE INDEX idx_loans_member ON loans(member_id);
+CREATE INDEX idx_loans_book ON loans(book_id);
+CREATE INDEX idx_loans_status ON loans(status);
+
+-- Minimal seed data (enough to demo every portfolio, loads in seconds)
+INSERT INTO members (full_name, email, phone, status) VALUES
+('Adaeze Okafor', 'adaeze@example.com', '08030001111', 'active'),
+('Kwena Musa', 'kwena@example.com', '08030002222', 'active'),
+('John Bello', 'john@example.com', '08030003333', 'active'),
+('Fatima Ali', 'fatima@example.com', '08030004444', 'suspended'),
+('Tunde Bakare', 'tunde@example.com', '08030005555', 'active');
+
+INSERT INTO books (isbn, title, author, category, total_copies, available_copies) VALUES
+('978-0134685991', 'Database System Concepts', 'Silberschatz', 'Computing', 5, 5),
+('978-0262033848', 'Introduction to Algorithms', 'Cormen', 'Computing', 3, 2),
+('978-0307277671', 'The Road', 'Cormac McCarthy', 'Fiction', 4, 4),
+('978-0439023481', 'The Hunger Games', 'Suzanne Collins', 'Fiction', 6, 1),
+('978-0132350884', 'Clean Code', 'Robert C. Martin', 'Computing', 2, 0),
+('978-0140449136', 'Things Fall Apart', 'Chinua Achebe', 'Fiction', 3, 3);
+
+INSERT INTO staff (full_name, role, email) VALUES
+('Grace Eze', 'Librarian', 'grace@citylight.ng'),
+('Ibrahim Sani', 'Assistant', 'ibrahim@citylight.ng');
+
+-- loan 1: on loan, loan 2: returned, loan 3: overdue (due date in past)
+INSERT INTO loans (member_id, book_id, staff_id, loan_date, due_date, return_date, status) VALUES
+(1, 2, 1, CURDATE() - INTERVAL 5 DAY, CURDATE() + INTERVAL 9 DAY, NULL, 'on_loan'),
+(2, 4, 1, CURDATE() - INTERVAL 20 DAY, CURDATE() - INTERVAL 6 DAY, CURDATE() - INTERVAL 2 DAY, 'returned'),
+(3, 5, 2, CURDATE() - INTERVAL 30 DAY, CURDATE() - INTERVAL 16 DAY, NULL, 'overdue');
+
+INSERT INTO fines (loan_id, amount, paid) VALUES
+(2, 800.00, 1),
+(3, 1500.00, 0);
+
+SELECT 'Schema + seed data loaded OK' AS result;
