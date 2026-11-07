@@ -1,4 +1,4 @@
-# Portfolio 3 — Transactions and Concurrency (7 marks)
+# Portfolio 3 — Transactions and Concurrency
 
 All scripts in `transactions.sql`. Run each block **separately** in MySQL Workbench (T4/T5 need two tabs open).
 
@@ -11,7 +11,7 @@ All scripts in `transactions.sql`. Run each block **separately** in MySQL Workbe
    - REPEATABLE READ: Tab A sees the OLD value (snapshot isolation). State which you observed.
 5. **T5 Lost-update prevention:** two tabs race for the last copy of book 3 with `SELECT ... FOR UPDATE`. Screenshot: second tab waits ("lock wait"), final `available_copies` never goes negative. Without `FOR UPDATE`, both could read 1 and both decrement → -1 (lost update).
 
-## Concurrency issue + control (for LMS doc, rewrite in your own words)
+## Concurrency issue + control
 - **Issue demonstrated:** lost update on `books.available_copies` when two librarians issue the last copy at the same time, plus non-repeatable reads under weak isolation.
 - **Controls used:** InnoDB row-level locks via `SELECT ... FOR UPDATE`, atomic `UPDATE ... WHERE available_copies > 0` guard, `START TRANSACTION/COMMIT/ROLLBACK`, and `REPEATABLE READ` default. ACID: Atomicity (T1–T3), Consistency (CHECK + FKs), Isolation (T4), Durability (InnoDB commit).
 - **Why InnoDB:** supports transactions + FKs + row locks (MyISAM would not).
