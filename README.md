@@ -41,6 +41,7 @@ The portfolio is organised into five progressive sections, following the suggest
 advanced-database-portfolio/
 ├── portfolio-1-database-design/
 │   └── schema.sql
+        README 
 ├── portfolio-2-query-optimisation/
 │   └── queries.sql
 ├── portfolio-3-transactions-concurrency/
