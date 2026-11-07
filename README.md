@@ -44,6 +44,7 @@ advanced-database-portfolio/
         README 
 ├── portfolio-2-query-optimisation/
 │   └── queries.sql
+        README 
 ├── portfolio-3-transactions-concurrency/
 │   └── transactions.sql
 ├── portfolio-4-nosql/
