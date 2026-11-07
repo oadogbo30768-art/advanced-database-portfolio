@@ -41,20 +41,21 @@ The portfolio is organised into five progressive sections, following the suggest
 advanced-database-portfolio/
 ├── portfolio-1-database-design/
 │   └── schema.sql
-        README 
+|       README 
 ├── portfolio-2-query-optimisation/
 │   └── queries.sql
-        README 
+|       README 
 ├── portfolio-3-transactions-concurrency/
 │   └── transactions.sql
-        README 
+|       README 
 ├── portfolio-4-nosql/
 │   └── nosql_mysql_json.sql
-        README
+|       README
 ├── portfolio-5-distributed-cloud/
 │   ├── partitioning.sql
 │   ├── replication-config/
 │   └── cloud-deployment-notes.md
+|       README
 ├── final-documentation/
 │   └── final-report.md
 └── README.md
