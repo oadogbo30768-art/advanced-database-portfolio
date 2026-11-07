@@ -1,4 +1,4 @@
-# Portfolio 2 — Query Processing and Optimisation (7 marks)
+# Portfolio 2 — Query Processing and Optimisation
 
 All queries are in `queries.sql`. Run in MySQL Workbench, screenshot each result grid + each EXPLAIN.
 
@@ -9,14 +9,14 @@ All queries are in `queries.sql`. Run in MySQL Workbench, screenshot each result
 4. **Q4 popularity ranking** — aggregation + `RANK()` window function (advanced concept credit).
 5. **Q5 never-borrowed books** — `NOT EXISTS` anti-join (optimiser handles better than `NOT IN` with NULLs).
 
-## Optimisation evidence (the marks live here)
+## Optimisation evidence
 1. Run the first `EXPLAIN FORMAT=TREE` **before** creating `idx_loans_member_status` → screenshot (likely full scan / single-column index only).
 2. `CREATE INDEX idx_loans_member_status ON loans(member_id, status)` → screenshot Output pane ("0 rows affected").
 3. Re-run the second `EXPLAIN FORMAT=TREE` → screenshot showing index range scan on `idx_loans_member_status`.
 4. Run `EXPLAIN ANALYZE` on the overdue join → screenshot actual time (e.g. `actual time=0.05..0.12`).
 5. `SHOW INDEX FROM books; SHOW INDEX FROM loans;` → screenshot.
 
-## 5-line performance analysis (paste into LMS doc, in your own words)
+## 5-line performance analysis
 - The issue-desk lookup (`member_id + status`) went from full-table/weak-index access to a composite index range scan.
 - Q2/Q3 join cost is dominated by `loans.status` filtering; `idx_loans_status` + `idx_loans_member_status` keep it index-assisted even as loans grow.
 - `Q5 NOT EXISTS` avoids `NOT IN` NULL pitfalls and lets the optimiser use `idx_loans_book`.
