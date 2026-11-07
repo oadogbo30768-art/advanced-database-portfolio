@@ -10,7 +10,7 @@ Run `partitioning.sql` in Workbench and screenshot:
 
 This proves **horizontal partitioning/sharding**: loan history split by year so old years can live on cheaper storage / different nodes.
 
-## 2. Architecture to describe
+## 2. Architecture Description
 
 ```
                  ┌─────────────┐
@@ -32,7 +32,7 @@ This proves **horizontal partitioning/sharding**: loan history split by year so 
 - **Consistency:** Primary + replica = eventual consistency for reports (a 1-sec lag is fine for "most borrowed books"); borrowing/returns stay on primary = strong consistency (never lend a book twice). CAP: choose Availability + Partition tolerance for catalogue, Consistency for stock/fines (CP for writes, AP for reads).
 - **Cloud deploy (cheapest real option):** AWS RDS MySQL `db.t3.micro` (free tier), or Railway/Planetscale MySQL. Steps: create instance → import `schema.sql` → point app at primary endpoint for writes, replica endpoint for reports → enable automated backups. Screenshot your RDS dashboard or even the "Create database" page as deployment evidence.
 
-## 3. What to write in LMS doc
+## 3. What was written on the LMS 
 "CityLight loan history is RANGE-partitioned by year so report queries prune to one partition; a primary handles borrow/return writes while a read replica serves overdue/popularity reports; catalogue reads are eventually consistent but stock stays strongly consistent on the primary, deployed as RDS MySQL Multi-AZ with daily snapshots."
 
 ## Checklist
