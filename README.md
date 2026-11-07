@@ -1,25 +1,56 @@
-Advanced Database Portfolio — Library Management System
-Course: MIT 8103 Advanced Database Systems (MIVA Open University, 2026/2027) Case Study: CityLight Public Library — borrow/return, catalogue search, fines. DBMS: MySQL 8.0 only (Workbench / CLI). No MongoDB, no Docker cluster needed. Why this case study: 5 tables, covers everything — design, queries, transactions (borrow/return), NoSQL (MySQL JSON), distributed (replication + partitioning + cloud).
+# Advanced Database Portfolio — Library Management System
 
-Run everything in order
-portfolio-1-database-design/schema.sql — create DB + tables
-portfolio-2-query-optimisation/queries.sql — queries + EXPLAIN + indexes
-portfolio-3-transactions-concurrency/transactions.sql — commit/rollback/isolation
-portfolio-4-nosql/nosql_mysql_json.sql — JSON document/key-value in MySQL
-portfolio-5-distributed-cloud/ — partitioning + replication config + cloud deploy notes
-Copy screenshots into each folder, push progressively to GitHub, submit final-documentation/ doc on LMS
-Repo layout (matches brief's suggested structure)
+**Course:** MIT 8103 Advanced Database Systems  
+**Institution:** MIVA Open University  
+**Academic Session:** 2026/2027  
+**Case Study:** CityLight Public Library  
+**DBMS:** MySQL 8.0
+
+## Project Overview
+
+This portfolio demonstrates advanced database concepts through the development of a Library Management System for CityLight Public Library.
+
+The system covers book borrowing and returning, catalogue searches, and fine management.
+
+### Technology Stack
+
+- **Database:** MySQL 8.0
+- **Database Tools:** MySQL Workbench / MySQL CLI
+- **Version Control:** Git and GitHub
+
+> **Scope:** MySQL 8.0 only. No MongoDB or Docker cluster is required.
+
+## Why This Case Study?
+
+The CityLight Public Library case study provides a practical foundation for demonstrating the major concepts covered in Advanced Database Systems.
+
+Using five core tables, the project explores:
+
+- Relational database design and schema development
+- SQL queries and query optimisation
+- Transactions and concurrency control
+- NoSQL concepts using MySQL JSON
+- Distributed databases, replication, and partitioning
+- Cloud database deployment
+
+## Portfolio Structure
+
+The portfolio is organised into five progressive sections, following the suggested structure in the course brief.
+
+```text
 advanced-database-portfolio/
 ├── portfolio-1-database-design/
+│   └── schema.sql
 ├── portfolio-2-query-optimisation/
+│   └── queries.sql
 ├── portfolio-3-transactions-concurrency/
+│   └── transactions.sql
 ├── portfolio-4-nosql/
+│   └── nosql_mysql_json.sql
 ├── portfolio-5-distributed-cloud/
+│   ├── partitioning.sql
+│   ├── replication-config/
+│   └── cloud-deployment-notes.md
 ├── final-documentation/
+│   └── final-report.md
 └── README.md
-Commit progressively — one commit per portfolio — so GitHub history shows continuous work.
-
-AI Use Declaration
-Tool: Claude (Anthropic, via Claude Code) — used for scaffolding SQL scripts, README structure, and optimisation explanations.
-What for: initial schema, query drafts, transaction examples, JSON examples, replication notes.
-Verification: I ran every .sql file in MySQL Workbench myself, captured my own screenshots/outputs, corrected errors, and rewrote the reflection in my own words.
